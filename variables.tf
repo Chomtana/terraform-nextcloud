@@ -55,6 +55,16 @@ variable "private_subnet_app_cidr" {
   default     = "10.0.3.0/24"
 }
 
+variable "private_bridge_app_ip" {
+  description = "App private IP in the bridge ENI"
+  default     = "10.0.3.100"
+}
+
+variable "private_bridge_db_ip" {
+  description = "DB private IP in the bridge ENI"
+  default     = "10.0.3.101"
+}
+
 
 // ==== Database ====
 

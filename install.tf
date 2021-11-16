@@ -13,7 +13,7 @@ data "template_cloudinit_config" "install_nextcloud" {
       database_name = var.database_name,
       database_user = var.database_user,
       database_pass = var.database_pass,
-      database_host = "10.0.3.101"
+      database_host = var.private_bridge_db_ip,
 
       admin_user = var.admin_user,
       admin_pass = var.admin_pass,
@@ -44,8 +44,9 @@ data "template_cloudinit_config" "install_nextcloud" {
 data "template_file" "install_database" {
   template = file("${path.module}/scripts/db_install.sh")
   vars = {
-    database_user = var.database_user
-    database_pass = var.database_pass
-    database_name = var.database_name
+    database_user         = var.database_user
+    database_pass         = var.database_pass
+    database_name         = var.database_name
+    private_bridge_app_ip = var.private_bridge_app_ip
   }
 }

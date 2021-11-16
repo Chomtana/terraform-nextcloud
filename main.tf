@@ -157,13 +157,13 @@ resource "aws_network_interface" "nc_public_eni" {
 resource "aws_network_interface" "nc_private_eni" {
   subnet_id       = aws_subnet.nc_app_private_subnet.id
   security_groups = [aws_security_group.nc_bridge_security_group.id]
-  private_ips     = ["10.0.3.100"]
+  private_ips     = [var.private_bridge_app_ip]
 }
 
 resource "aws_network_interface" "db_private_eni" {
   subnet_id       = aws_subnet.nc_app_private_subnet.id
   security_groups = [aws_security_group.nc_bridge_security_group.id]
-  private_ips     = ["10.0.3.101"]
+  private_ips     = [var.private_bridge_db_ip]
 }
 
 resource "aws_network_interface" "db_nat_eni" {
@@ -268,17 +268,17 @@ resource "aws_security_group" "nc_bridge_security_group" {
   vpc_id = aws_vpc.nc_vpc.id
 
   ingress {
-    from_port         = 3306
-    to_port           = 3306
-    protocol          = "tcp"
-    self              = true
+    from_port = 3306
+    to_port   = 3306
+    protocol  = "tcp"
+    self      = true
   }
 
   egress {
-    from_port         = 0
-    to_port           = 0
-    protocol          = "-1"
-    cidr_blocks       = ["0.0.0.0/0"]
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   tags = {
@@ -312,17 +312,17 @@ resource "aws_security_group" "nc_db_security_group" {
   vpc_id = aws_vpc.nc_vpc.id
 
   ingress {
-    from_port         = 0
-    to_port           = 0
-    protocol          = "-1"
-    self              = true
+    from_port = 0
+    to_port   = 0
+    protocol  = "-1"
+    self      = true
   }
 
   egress {
-    from_port         = 0
-    to_port           = 0
-    protocol          = "-1"
-    cidr_blocks       = ["0.0.0.0/0"]
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   tags = {
@@ -386,31 +386,31 @@ resource "aws_security_group" "nc_app_security_group" {
   vpc_id = aws_vpc.nc_vpc.id
 
   ingress {
-    from_port         = 80
-    to_port           = 80
-    protocol          = "tcp"
-    cidr_blocks       = ["0.0.0.0/0"]
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   ingress {
-    from_port         = 443
-    to_port           = 443
-    protocol          = "tcp"
-    cidr_blocks       = ["0.0.0.0/0"]
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   ingress {
-    from_port         = 22
-    to_port           = 22
-    protocol          = "tcp"
-    cidr_blocks       = ["0.0.0.0/0"]
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
-    from_port         = 0
-    to_port           = 0
-    protocol          = "-1"
-    cidr_blocks       = ["0.0.0.0/0"]
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   lifecycle {
